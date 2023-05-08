@@ -1,0 +1,24 @@
+services:
+  funnel:
+    image: cerit.io/gdi/funnel:v0.11
+    command:
+      - /app/funnel
+      - server
+      - run
+      - -c
+      - /config/config.yaml
+    ports:
+      - 8000:8000
+      - 9090:9090
+    privileged: true
+    healthcheck:
+      test: ["CMD", "curl", "-fkq", "http://localhost:8000/"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - data:/data
+      - ./config:/config
+
+volumes:
+  data:
