@@ -1,7 +1,7 @@
 #!/bin/bash
 
 curl --request POST \
-	--url http://localhost:8000/v1/tasks \
+	--url http://localhost:8010/v1/tasks \
 	--header 'Accept: application/json' \
 	--header 'Content-Type: application/json' \
 	--data '{"name": "Test world",
