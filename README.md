@@ -47,3 +47,13 @@ There are two more examples: `example-htsget.sh` and `example-auth.sh` both show
 ### Authentication
 
 The containers starter kit supports authentication, bearer tokens can be passed in htsget url in the form `htsget://toke:BEARER_TOKEN@data-url.com/path`.
+
+## Integration with External Services
+
+The deployment is preconfigured to work with local deployment of both [starter-kit-hstget](https://github.com/GenomicDataInfrastructure/starter-kit-htsget) and [starter-kit-storage-and-interfaces](https://github.com/GenomicDataInfrastructure/starter-kit-storage-and-interfaces). The `htsget` expects the server to have a valid certificate. For local deployment, this is done via:
+```
+environment:
+    - CURL_CA_BUNDLE=/shared/cert/ca.crt
+```
+
+However, this does not work with an external htsget service that has a valid certificate; this environment must be removed.
