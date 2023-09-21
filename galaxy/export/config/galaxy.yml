@@ -1,0 +1,2 @@
+galaxy:
+  environment_setup_file: env.sh

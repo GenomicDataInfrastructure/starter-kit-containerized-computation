@@ -1,0 +1,61 @@
+services:
+  galaxy:
+    image: bgruening/galaxy-stable
+    ports:
+      - 8088:80
+      - 8021:21
+      - 8022:22
+    privileged: false
+    healthcheck:
+      test: ["CMD", "curl", "-fkq", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+#    environment: 
+#    - CURL_CA_BUNDLE=/shared/cert/ca.crt
+    networks:
+      - public
+      - secure
+    volumes:
+      - ./export:/export
+      - starter-kit-storage-and-interfaces_shared:/shared
+    extra_hosts:
+      - dockerhost:host-gateway
+    environment:
+      - ENABLE_TTS_INSTALL=True
+      - GALAXY_CONFIG_FILE=/export/config/galaxy.yml
+
+  install_tool:
+    container_name: install_tool
+    image: curlimages/curl
+    command:
+      - /bin/sh
+      - /install_tool.sh
+    volumes:
+      - ./scripts/install_tool.sh:/install_tool.sh
+    depends_on:
+      galaxy:
+        condition: service_healthy
+    networks:
+      - public
+
+  dummy:
+    depends_on:
+      install_tool:
+        condition: service_completed_successfully
+    image: curlimages/curl
+    command:
+      - 'true'
+
+
+networks:
+  public:
+    name: starter-kit-htsget_public
+  secure:
+    name: starter-kit-storage-and-interfaces_secure
+    external: true
+
+volumes:
+  starter-kit-storage-and-interfaces_shared:
+    external: true
+

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<tool_dependency>
+    <package name="htsget" version="0.2.6">
+        <install version="1.0">
+            <actions>
+                <action type="setup_virtualenv">htsget==0.2.6</action>
+                <action type="set_environment">
+                   <environment_variable name="PATH" action="prepend_to">$INSTALL_DIR/bin</environment_variable>
+                </action>
+            </actions>
+        </install>
+    </package>
+</tool_dependency>
